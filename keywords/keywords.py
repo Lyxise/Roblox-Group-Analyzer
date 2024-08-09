@@ -52,7 +52,7 @@ usernameKeywords = {
     "colonizer": 190,
     "coloniser": 190,
     "buii": 150,
-    "buil": 150,
+    "buil": 100,
     "buli": 150, # bypassings of 'bull'
     "snowbun": 200,
     "Sbmissive": 200,
