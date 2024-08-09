@@ -13,3 +13,4 @@ After downloading the project and the requests library, run the 'Group Analyzer.
 This system CAN have false positives, however, it is unlikely unless you are using the project on an innocent group (not filled with predators).
 Sometimes you may have to wait until the last couple hundred members for accounts to start getting flagged. This is normal.
 You can edit the keywords yourself by editing 'keywords.py' in the /keywords directory.
+Deleted accounts can still be flagged.
