@@ -14,3 +14,7 @@ This system CAN have false positives, however, it is unlikely unless you are usi
 Sometimes you may have to wait until the last couple hundred members for accounts to start getting flagged. This is normal.
 You can edit the keywords yourself by editing 'keywords.py' in the /keywords directory.
 Deleted accounts can still be flagged.
+## Planned Features
+- Morse Code detection & automatic translation
+- Removal of deleted accounts from 'output.txt'
+- System that sends verified flagged accounts to a webhook
