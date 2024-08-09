@@ -2,13 +2,18 @@ import requests
 import os
 import time
 import re
+keywordsRaw = 'https://raw.githubusercontent.com/Lyxise/test/main/keywords.py'
+# fetch keywords
+def fetch_and_load_keywords(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        keywords = {}
+        exec(response.text, keywords)
+        return keywords
+    else:
+        raise Exception(f"Error fetching keywords.py: {response.status_code}")
 
-script_dir = os.path.dirname(os.path.abspath(__file__))
-keywords_file = os.path.join(script_dir, 'keywords', 'keywords.py')
-
-keywords = {}
-with open(keywords_file, 'r') as file:
-    exec(file.read(), keywords)
+keywords = fetch_and_load_keywords(keywordsRaw)
 
 usernameKeywords = keywords['usernameKeywords']
 descriptionKeywords = keywords['descriptionKeywords']
@@ -40,7 +45,7 @@ def calculate_user_score(display_name, username, description):
     check_keywords(username_lower, usernameKeywords)
     check_keywords(description_lower, descriptionKeywords)
 
-    return user_score, list(set(flag_reasons))  # Remove duplicate reasons
+    return user_score, list(set(flag_reasons))
 
 def fetch_roblox_profile(user_id):
     url = f"https://users.roblox.com/v1/users/{user_id}"
@@ -67,7 +72,6 @@ def fetch_group_members(group_id):
             break
     return [member["user"]["userId"] for member in members]
 
-# main
 def analyze_profiles(user_ids):
     results = []
     total_users = len(user_ids)
@@ -75,18 +79,18 @@ def analyze_profiles(user_ids):
         profile = fetch_roblox_profile(user_id)
         if profile:
             username = profile["name"]
-            display_name = profile.get("displayName", username)  # use display name if available
-            description = profile.get("description", "")  # use get to handle cases where description might be missing
+            display_name = profile.get("displayName", username)
+            description = profile.get("description", "")
             user_score, flag_reasons = calculate_user_score(display_name, username, description)
             flagged = user_score > 200
             percentage = min((user_score / 200) * 100, 100)
             flag_text = f"{user_score} (FLAGGED)" if flagged else str(user_score)
             if flagged:
-                print(f"\033[91m{display_name} (@{username}): {user_score}/200, {percentage:.0f}% ({count}/{total_users})\033[0m")
+                print(f"\033[91m{display_name} (@{username}): {user_score}/200, {percentage:.0f}% ({count}/{total_users})\033[0m") # should be in red in windows 11, but most likely not for 10 
             else:
                 print(f"{display_name} (@{username}): {user_score}/200, {percentage:.0f}% ({count}/{total_users})")
             results.append((display_name, username, user_score, flagged, flag_reasons))
-        time.sleep(0.15)
+        time.sleep(0.3)
     return results
 
 def sort_and_log_results(results):
@@ -96,7 +100,7 @@ def sort_and_log_results(results):
 
     sorted_results = custom_flagged + normal_flagged + non_flagged
     
-    output_file = os.path.join(script_dir, "output.txt")
+    output_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "output.txt")
     with open(output_file, "w", encoding="utf-8") as file:
         for count, (display_name, username, user_score, flagged, flag_reasons) in enumerate(sorted_results, 1):
             flag_text = " [FLAGGED]" if flagged else ""
@@ -109,7 +113,7 @@ def sort_and_log_results(results):
     print(f"Results written to {output_file}")
 
 def main():
-    group_id = input("Enter group ID that you'd like to scan: ").strip()
+    group_id = input("Enter the Roblox group ID: ").strip()
     user_ids = fetch_group_members(group_id)
     results = analyze_profiles(user_ids)
     sort_and_log_results(results)
