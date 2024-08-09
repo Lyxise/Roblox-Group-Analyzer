@@ -18,3 +18,4 @@ Deleted accounts can still be flagged.
 - Morse Code detection & automatic translation
 - Removal of deleted accounts from 'output.txt'
 - System that sends verified flagged accounts to a webhook
+- Detects if avatar is innapropriate via wearing several flagged UGC
