@@ -90,7 +90,7 @@ def analyze_profiles(user_ids):
             else:
                 print(f"{display_name} (@{username}): {user_score}/200, {percentage:.0f}% ({count}/{total_users})")
             results.append((display_name, username, user_score, flagged, flag_reasons))
-        time.sleep(0.3)
+        time.sleep(0.25)
     return results
 
 def sort_and_log_results(results):
