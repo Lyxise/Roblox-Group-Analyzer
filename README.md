@@ -1,6 +1,6 @@
 # Roblox-Group-Analyzer
 made by lyxise
-## Intended Use
+## Overview
 This project is to be used to quickly and easily find NSFW accounts on Roblox to make it easier to report them using the EU report system and get the accounts moderated. Designed for / on Windows, should run fine on Linux. (Mac not supported yet)
 ## Dependencies
 Simple tool to be used to detect NSFW accounts in roblox groups and organize them into an easily-readable list.
